@@ -19,16 +19,39 @@ The Azure IoT File Upload process is as follows:
 
 To run the sample:
 
-1. Open either `data-plane/files/upload-file.js` or `data-plane/files/upload-file.py` 
-2. Set your IoT Hub name, IoT Hub key and Device Id
-3. Open a terminal 
-4. Navigate to `data-plane/files`
-5. Execute one of the following:
+#### Python
+1. Open `data-plane/files/upload-file.py` 
+1. Set your IoT Hub name, IoT Hub key and Device Id
+1. Open a terminal 
+1. Navigate to the root of this project
+1. Execute the following to install the `requests` pip
 
 ```
-node .\upload-file.js
+pip install requests
 ```
+
+1. Navigate to `data-plane/files`
+1. Execute the following to upload a sample text and binary file to your blob storage
 
 ```
 python .\upload-file.py
+```
+
+#### Node
+
+1. Open `data-plane/files/upload-file.js`
+1. Set your IoT Hub name, IoT Hub key and Device Id
+1. Open a terminal 
+1. Navigate to the root of this project
+1. Execute the following to install dependencies
+
+```
+npm install
+```
+
+1. Navigate to `data-plane/files`
+1. Execute the following to upload a sample text and binary file to your blob storage
+
+```
+node .\upload-file.js
 ```
