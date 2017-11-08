@@ -55,3 +55,9 @@ npm install
 ```
 node .\upload-file.js
 ```
+
+#### File Upload Notifications
+
+Please reference the following article to learn how to handle the File Upload Notification event on the server-side.  This is helpful when you want to kick-off a backend process when a file has been uploaded.
+
+https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-java-java-file-upload#receive-a-file-upload-notification
