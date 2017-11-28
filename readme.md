@@ -4,6 +4,38 @@ This repo contains sample code that will help you use the Azure IoT REST APIs.
 
 ## APIs
 
+### Device Configuration
+
+IoT Edge devices are configured with metadata such as module paths and route settings.  That configuration is applied via the `applyConfigurationContent` API.  You can read more about Edge configuration here: https://github.com/jonbgallant/azure-iot-edge-config
+
+#### device-conf Script
+
+This repo contains a script called `device-conf` that will assist you in creating automation scripts to apply these settings.  The script simply wraps the REST API.
+
+Here's how to use it:
+
+1\. Clone this repo.
+2\. Navigate to `data-plane\devices`
+3\. Run `pip install requests`
+4\. Execute the device-conf script:
+
+```
+python device-conf.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --config-file [path to module config]
+```
+
+#### REST API
+
+You can also apply the config change via the Azure IoT REST API itself, the URI is: 
+
+```
+POST /devices/{{deviceId}}/applyConfigurationContent?api-version=2017-11-08-preview HTTP/1.1
+Host: {{iot-hub-name}}.azure-devices.net
+Authorization: {{sas-token}}
+Content-Type: application/json
+```
+
+Payload needs to be the modified version of the moduleconfig.json file found [here](https://github.com/jonbgallant/azure-iot-edge-config/blob/master/config/moduleconfig.json).
+
 ### File Upload
 
 #### Prerequisites
