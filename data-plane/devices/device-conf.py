@@ -52,7 +52,6 @@ def getConfigFileContents():
         return configFile.read()
 
 def applyConfiguration():
-    # 1. GET FILE STORAGE URI
     applyConfigurationResponse = requests.post(applyConfigurationURI, 
         headers={
             'Authorization': iotHubSasToken,
@@ -69,6 +68,6 @@ def applyConfiguration():
         print("Configuration successfully applied.  Please run `docker logs edgeAgent -f` to see the change applied.")
     else:
         print("There was an error applying the configuration. You should see an error message above that indicates the issue.")
-        
+
 iotHubSasToken = get_iot_hub_sas_token(resourceURI, key, policyKeyName, tokenExpirationPeriod)
 applyConfiguration()
