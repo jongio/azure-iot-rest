@@ -47,17 +47,17 @@ def get_iot_hub_sas_token(uri, key, policy_name, expiry=3600):
 
     return 'SharedAccessSignature ' + urlencode(rawtoken)
 
-def getConfigFileContents(): 
+def get_config_file_contents(): 
     with open(args.config_file, 'r') as configFile:
         return configFile.read()
 
-def applyConfiguration():
+def apply_configuration():
     applyConfigurationResponse = requests.post(applyConfigurationURI, 
         headers={
             'Authorization': iotHubSasToken,
             'Content-Type': 'application/json'
         },
-        data = getConfigFileContents()
+        data = get_config_file_contents()
     )
 
     print(applyConfigurationURI)
@@ -70,4 +70,4 @@ def applyConfiguration():
         print("There was an error applying the configuration. You should see an error message above that indicates the issue.")
 
 iotHubSasToken = get_iot_hub_sas_token(resourceURI, key, policyKeyName, tokenExpirationPeriod)
-applyConfiguration()
+apply_configuration()

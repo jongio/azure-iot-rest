@@ -2,30 +2,34 @@
 
 This repo contains sample code that will help you use the Azure IoT REST APIs.
 
+## Prerequisites
+
+### Azure Requirements
+1. Azure IoT Hub
+1. Azure IoT Hub Device
+1. Azure Storage Account (to store the uploaded files, see [this blog post](http://blog.jongallant.com/2017/01/azure-iot-hub-file-upload-python/) for instructions on how to set this up)
+
+### Dev Machine Requirements
+1. Install [Python 2.7+](https://www.python.org/downloads/)
+2. Run `pip install requests`
+3. Clone this repo `git clone https://github.com/jonbgallant/azure-iot-rest.git`
+4. Execute the scripts as indicated below.
+
 ## APIs
+### Devices
+#### Configuration
 
-### Device Configuration
+IoT Edge devices are configured with metadata such as module paths and route settings.  That configuration is applied via the `applyConfigurationContent` API.  You can read more about Edge configuration [here](https://github.com/jonbgallant/azure-iot-edge-config).
 
-IoT Edge devices are configured with metadata such as module paths and route settings.  That configuration is applied via the `applyConfigurationContent` API.  You can read more about Edge configuration here: https://github.com/jonbgallant/azure-iot-edge-config
+Here's how to apply a configuration update:
 
-#### device-conf Script
-
-This repo contains a script called `device-conf` that will assist you in creating automation scripts to apply these settings.  The script simply wraps the REST API.
-
-Here's how to use it:
-
-1\. Clone this repo.
-2\. Navigate to `data-plane\devices`
-3\. Run `pip install requests`
-4\. Execute the device-conf script:
+##### Script
 
 ```
-python device-conf.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --config-file [path to module config]
+python data-plane/devices/device-conf.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --config-file [path to module config]
 ```
 
-#### REST API
-
-You can also apply the config change via the Azure IoT REST API itself, the URI is: 
+##### REST API
 
 ```
 POST /devices/{{deviceId}}/applyConfigurationContent?api-version=2017-11-08-preview HTTP/1.1
@@ -34,14 +38,9 @@ Authorization: {{sas-token}}
 Content-Type: application/json
 ```
 
-Payload needs to be the modified version of the moduleconfig.json file found [here](https://github.com/jonbgallant/azure-iot-edge-config/blob/master/config/moduleconfig.json).
+The POST payload needs to be the modified version of the moduleconfig.json file found [here](https://github.com/jonbgallant/azure-iot-edge-config/blob/master/config/moduleconfig.json).
 
-### File Upload
-
-#### Prerequisites
-1. Azure IoT Hub
-1. Azure IoT Hub Device
-1. Azure Storage Account (to store the uploaded files, see [this blog post](http://blog.jongallant.com/2017/01/azure-iot-hub-file-upload-python/) for instructions on how to set this up)
+#### File Upload
 
 The Azure IoT File Upload process is as follows:
 
@@ -49,44 +48,17 @@ The Azure IoT File Upload process is as follows:
 2. Put the file at the blob storage URI you received in the previous step
 3. Call the notification URI to check the status of the upload
 
-To run the sample:
+Here's how to upload a file:
 
-#### Python
-1. Open `data-plane/files/upload-file.py` 
-1. Set your IoT Hub name, IoT Hub key and Device Id
-1. Open a terminal 
-1. Navigate to the root of this project
-1. Execute the following to install the `requests` pip
+##### Script
+
+> Make sure you have the storage account setup as indicated above in the [prerequisites](#prerequisites).
 
 ```
-pip install requests
+python data-plane/devices/files/file-upload.py --name [iothubname] --key [iothubkey] --device-id [deviceid]
 ```
 
-1. Navigate to `data-plane/files`
-1. Execute the following to upload a sample text and binary file to your blob storage
-
-```
-python .\upload-file.py
-```
-
-#### Node
-
-1. Open `data-plane/files/upload-file.js`
-1. Set your IoT Hub name, IoT Hub key and Device Id
-1. Open a terminal 
-1. Navigate to the root of this project
-1. Execute the following to install dependencies
-
-```
-npm install
-```
-
-1. Navigate to `data-plane/files`
-1. Execute the following to upload a sample text and binary file to your blob storage
-
-```
-node .\upload-file.js
-```
+This script will upload a couple of sample files to prove it works.  Feel free to customize the script to suit your needs.
 
 #### File Upload Notifications
 

@@ -1,16 +1,29 @@
 # pip install requests
 import requests
 import uuid
+import sys
 from base64 import b64encode, b64decode
 from hashlib import sha256
 from time import time
 from urllib import quote_plus, urlencode
 from hmac import HMAC
+import argparse
 
-resourceName = ''  # IoT Hub name
-resourceKey = '' # IoT Hub primary key
-deviceId = 'device1' # IoT Hub device id
-resourceURI = resourceName + '.azure-devices.net'
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--name", help="IoT Hub Name")
+parser.add_argument("--key", help="IoT Hub (iothubowner) primary key")
+parser.add_argument("--device-id", help="IoT Edge device Id")
+
+if len(sys.argv) != 7:
+    parser.print_help()
+    sys.exit(1)
+args = parser.parse_args()
+
+name = args.name  # IoT Hub name
+key = args.key # IoT Hub primary key
+deviceId = args.device_id # IoT Hub device id
+
+resourceURI = name + '.azure-devices.net'
 tokenExpirationPeriod = 60
 policyKeyName = 'iothubowner'
 apiVersion = '2016-02-03'
@@ -31,7 +44,7 @@ def get_iot_hub_sas_token(uri, key, policy_name, expiry=3600):
 
     return 'SharedAccessSignature ' + urlencode(rawtoken)
 
-iotHubSasToken = get_iot_hub_sas_token(resourceURI, resourceKey, policyKeyName, tokenExpirationPeriod)
+iotHubSasToken = get_iot_hub_sas_token(resourceURI, key, policyKeyName, tokenExpirationPeriod)
 fileUploadRequestURI = 'https://%s/devices/%s/files?api-version=%s' % (resourceURI, deviceId, apiVersion)
 fileUploadURITemplate = 'https://%s/%s/%s%s'
 notificationURI = 'https://%s/devices/%s/files/notifications?api-version=%s' % (resourceURI, deviceId, apiVersion)
@@ -89,5 +102,5 @@ def upload_file(body, fileName, contentType, contentLength):
 bodyText = '{ "device": "device1", "temp": 42 }'
 upload_file(bodyText, str(uuid.uuid4()) + ".json", "application/json", str(len(bodyText)))
 
-bodyBinary = open("iot.png", 'rb').read()
+bodyBinary = open("assets/iot.png", 'rb').read()
 upload_file(bodyBinary, str(uuid.uuid4()) + ".png", "image/png", str(len(bodyBinary)))
