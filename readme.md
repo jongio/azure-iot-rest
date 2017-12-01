@@ -25,6 +25,30 @@ The Azure REST APIs hosted on management.azure.com require a Bearer Token Author
 
 ## APIs
 ### Devices
+
+#### Module Twin
+
+Every IoT Edge device module has a corresponding cloud twin. You can use the `module-twin.py` script to retrieve that twin data.
+
+```
+python data-plane/device/modules/module-twin.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --module-id [your module id]
+```
+
+To get the $edgeHub module twin you would execute the following:  
+
+> Make sure you single quote `$edgeHub`
+
+```
+python data-plane/device/modules/module-twin.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --module-id '$edgeHub'
+```
+
+That will output a json object that you can inspect.
+
+The URI path is:
+```
+https://[iotname].azure-devices.net/twins/deviceId/modules/moduleId?api-version=api-version
+```
+
 #### Configuration
 
 IoT Edge devices are configured with metadata such as module paths and route settings.  That configuration is applied via the `applyConfigurationContent` API.  You can read more about Edge configuration [here](https://github.com/jonbgallant/azure-iot-edge-config).
