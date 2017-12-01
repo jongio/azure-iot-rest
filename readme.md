@@ -46,7 +46,7 @@ That will output a json object that you can inspect.
 
 The URI path is:
 ```
-https://[iotname].azure-devices.net/twins/deviceId/modules/moduleId?api-version=api-version
+https://[iotname].azure-devices.net/twins/[deviceId]/modules/[moduleId]?api-version=[api-version]
 ```
 
 #### Configuration
