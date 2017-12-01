@@ -1,13 +1,19 @@
-# Run 'pip install requests' first
+# Python 2.7: Run 'pip install requests' first
+# Python 3: Run 'pip3 install requests' first
+
 import requests
 import uuid
 import sys
 from base64 import b64encode, b64decode
 from hashlib import sha256
 from time import time
-from urllib import quote_plus, urlencode
 from hmac import HMAC
 import argparse
+
+if sys.version_info.major >= 3:
+    from urllib.parse import quote, urlencode
+else:
+    from urllib import quote, urlencode
 
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--name", help="IoT Hub Name")
@@ -33,8 +39,8 @@ applyConfigurationURI = 'https://%s/devices/%s/applyConfigurationContent?api-ver
 
 def get_iot_hub_sas_token(uri, key, policy_name, expiry=3600):
     ttl = time() + expiry
-    sign_key = "%s\n%d" % ((quote_plus(uri)), int(ttl))
-    signature = b64encode(HMAC(b64decode(key), sign_key, sha256).digest())
+    sign_key = "%s\n%d" % ((quote(uri)), int(ttl))
+    signature = b64encode(HMAC(b64decode(key), sign_key.encode('utf-8'), sha256).digest())
 
     rawtoken = {
         'sr' :  uri,
