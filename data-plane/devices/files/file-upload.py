@@ -10,23 +10,21 @@ from hmac import HMAC
 import argparse
 
 parser = argparse.ArgumentParser(description="")
-parser.add_argument("--name", help="IoT Hub Name")
-parser.add_argument("--key", help="IoT Hub (iothubowner) primary key")
-parser.add_argument("--device-id", help="IoT Edge device Id")
+parser.add_argument("--name", help="IoT Hub Name", required=True)
+parser.add_argument("--key", help="IoT Hub primary key", required=True)
+parser.add_argument("--device-id", help="IoT Edge device Id", required=True)
+parser.add_argument("--key-name", help="IoT Hub policy key name, defaults to %(default)s", default="iothubowner")
+parser.add_argument("--api-version", help="IoT Hub REST API version, defaults to %(default)s", default="2017-11-08-preview")
 
-if len(sys.argv) != 7:
-    parser.print_help()
-    sys.exit(1)
 args = parser.parse_args()
 
 name = args.name  # IoT Hub name
 key = args.key # IoT Hub primary key
 deviceId = args.device_id # IoT Hub device id
-
 resourceURI = name + '.azure-devices.net'
 tokenExpirationPeriod = 60
-policyKeyName = 'iothubowner'
-apiVersion = '2016-02-03'
+policyKeyName = args.key_name
+apiVersion = args.api_version
 
 def get_iot_hub_sas_token(uri, key, policy_name, expiry=3600):
     ttl = time() + expiry

@@ -16,14 +16,13 @@ else:
     from urllib import quote, urlencode
 
 parser = argparse.ArgumentParser(description="")
-parser.add_argument("--name", help="IoT Hub Name")
-parser.add_argument("--key", help="IoT Hub (iothubowner) primary key")
-parser.add_argument("--device-id", help="IoT Edge device Id")
-parser.add_argument("--module-id", help="IoT Edge device module Id, i.e. $edgeHub")
+parser.add_argument("--name", help="IoT Hub Name", required=True)
+parser.add_argument("--key", help="IoT Hub (iothubowner) primary key", required=True)
+parser.add_argument("--device-id", help="IoT Edge device Id", required=True)
+parser.add_argument("--module-id", help="IoT Edge device module Id, i.e. $edgeHub", required=True)
+parser.add_argument("--key-name", help="IoT Hub policy key name, defaults to %(default)s", default="iothubowner")
+parser.add_argument("--api-version", help="IoT Hub REST API version, defaults to %(default)s", default="2017-11-08-preview")
 
-if len(sys.argv) != 9:
-    parser.print_help()
-    sys.exit(1)
 args = parser.parse_args()
 
 name = args.name  # IoT Hub name
@@ -33,9 +32,9 @@ moduleId = args.module_id # IoT Hub device module id
 
 resourceURI = name + '.azure-devices.net'
 tokenExpirationPeriod = 60
-policyKeyName = 'iothubowner'
-apiVersion = '2017-11-08-preview'
-#moduleTwinURI = 'https://%s/devices/%s/modules/%s/twins?api-version=%s' % (resourceURI, deviceId, moduleId, apiVersion)
+policyKeyName = args.key_name
+apiVersion = args.api_version
+
 moduleTwinURI = 'https://%s/twins/%s/modules/%s?api-version=%s' % (resourceURI, deviceId, moduleId, apiVersion)
 
 def get_iot_hub_sas_token(uri, key, policy_name, expiry=3600):
