@@ -11,9 +11,11 @@ This repo contains sample code that will help you use the Azure IoT REST APIs.
 
 ### Dev Machine Requirements
 1. Install [Python 2.7+](https://www.python.org/downloads/)
-2. Run Python 2: `pip install requests` or Python 3: `pip3 install requests`
-3. Clone this repo `git clone https://github.com/jonbgallant/azure-iot-rest.git`
-4. Execute the scripts as indicated below.
+1. Clone this repo `git clone https://github.com/jonbgallant/azure-iot-rest.git`
+1. Navigate to the root of this repo and run:
+ - Python 2: `pip install -r requirements.txt` 
+ - Python 3: `pip3 install -r requirements.txt`
+1. Execute the scripts as indicated below.
 
 ### Authentication
 
@@ -25,6 +27,19 @@ The Azure REST APIs hosted on management.azure.com require a Bearer Token Author
 
 ## APIs
 ### Devices
+
+#### Modules
+Every IoT Edge device has a list of modules associated.  You can use the `modules.py` script to retrieve them.
+
+To get all modules:
+```
+python data-plane/device/modules/modules.py --name [iothubname] --key [iothubkey] --device-id [deviceid]
+```
+
+To get a specific module:
+```
+python data-plane/device/modules/modules.py --name [iothubname] --key [iothubkey] --device-id [deviceid] --module-id [your module id]
+```
 
 #### Module Twin
 
