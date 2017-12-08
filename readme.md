@@ -13,8 +13,8 @@ This repo contains sample code that will help you use the Azure IoT REST APIs.
 1. Install [Python 2.7+](https://www.python.org/downloads/)
 1. Clone this repo `git clone https://github.com/jonbgallant/azure-iot-rest.git`
 1. Navigate to the root of this repo and run:
- - Python 2: `pip install -r requirements.txt` 
- - Python 3: `pip3 install -r requirements.txt`
+    - Python 2: `pip install -r requirements.txt` 
+    - Python 3: `pip3 install -r requirements.txt`
 1. Execute the scripts as indicated below.
 
 ### Authentication
